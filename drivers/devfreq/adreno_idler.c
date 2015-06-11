@@ -82,10 +82,7 @@ int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 		}
 	} else {
 
-		/* This is the case where msm-adreno-tz don't use the lowest frequency.
-		   Mimic this behavior by bumping up the frequency. */
 		idlecount = 0;
-		*freq = devfreq->profile->freq_table[devfreq->profile->max_state - 2];
 
 		/* Do not return 1 here and allow rest of the algorithm to
 		   figure out the appropriate frequency for current workload.
