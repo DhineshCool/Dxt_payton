@@ -41,14 +41,13 @@
 static unsigned long idleworkload = 5000;
 module_param_named(adreno_idler_idleworkload, idleworkload, ulong, 0664);
 
-/* Number of events to wait before ramping down the frequency.
-   The idlewait'th events before current one must be all idle before
-   Adreno idler ramps down the frequency.
-   This implementation is to prevent micro-lags on scrolling or playing games.
-   Adreno idler will more actively try to ramp down the frequency
-   if this is set to a lower value. */
-static unsigned int idlewait = 20;
-module_param_named(adreno_idler_idlewait, idlewait, uint, 0664);
+/* Numbers to wait before entering idle.
+   The idlewait'th events before must be all idle before Adreno idler ramps
+   down the frequency.
+   This implementation is to prevent micro-lags on scrolling or playing games,
+   meaning the lower it gets, the slower & low-power it would get. */
+static int idlewait = 20;
+module_param_named(adreno_idler_idlewait, idlewait, int, 0664);
 
 /* Taken from ondemand */
 static unsigned int downdifferenctial = 20;
@@ -82,7 +81,12 @@ int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
 			return 1;
 		}
 	} else {
+
+		/* This is the case where msm-adreno-tz don't use the lowest frequency.
+		   Mimic this behavior by bumping up the frequency. */
 		idlecount = 0;
+		*freq = devfreq->profile->freq_table[devfreq->profile->max_state - 2];
+
 		/* Do not return 1 here and allow rest of the algorithm to
 		   figure out the appropriate frequency for current workload.
 		   It can even set it back to the lowest frequency. */
