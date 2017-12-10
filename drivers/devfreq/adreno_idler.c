@@ -56,18 +56,9 @@ module_param_named(adreno_idler_idlewaitms, idlewaitms, int, 0664);
 static int downdifferenctial = 20;
 module_param_named(adreno_idler_downdifferenctial, downdifferenctial, int, 0664);
 
-/* Master switch to activate whole routine */
-static int adreno_idler_active = 1;
-module_param_named(adreno_idler_active, adreno_idler_active, int, 0664);
-
-static inline int64_t get_time_inms(void) {
-	int64_t tinms;
-	struct timespec cur_time = current_kernel_time();
-	tinms  = cur_time.tv_sec  * MSEC_PER_SEC;
-	tinms += cur_time.tv_nsec / NSEC_PER_MSEC;
-	return tinms;
-}
-static int64_t idle_lasttime = 0;
+/* Master switch to activate the whole routine */
+static bool adreno_idler_active = false;
+module_param_named(adreno_idler_active, adreno_idler_active, bool, 0664);
 
 
 int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
