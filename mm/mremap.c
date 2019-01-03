@@ -191,47 +191,26 @@ static void move_ptes(struct vm_area_struct *vma, pmd_t *old_pmd,
 		i_mmap_unlock_write(mapping);
 }
 
+#define LATENCY_LIMIT	(64 * PAGE_SIZE)
 #ifdef CONFIG_HAVE_MOVE_PMD
-int move_normal_pmd(struct vm_area_struct *vma, struct vm_area_struct *new_vma,
-		  unsigned long old_addr,
+static bool move_normal_pmd(struct vm_area_struct *vma, unsigned long old_addr,
 		  unsigned long new_addr, unsigned long old_end,
 		  pmd_t *old_pmd, pmd_t *new_pmd)
 {
 	spinlock_t *old_ptl, *new_ptl;
-	pmd_t pmd;
 	struct mm_struct *mm = vma->vm_mm;
+	pmd_t pmd;
 
-	if ((old_addr & ~PMD_MASK) ||
-	    (new_addr & ~PMD_MASK) ||
-	    old_end - old_addr < PMD_SIZE ||
-	    (new_vma->vm_flags & VM_NOHUGEPAGE))
-		return 0;
+	if ((old_addr & ~PMD_MASK) || (new_addr & ~PMD_MASK)
+	    || old_end - old_addr < PMD_SIZE)
+		return false;
 
 	/*
 	 * The destination pmd shouldn't be established, free_pgtables()
-	 * should have released it.
-	 *
-	 * However, there's a case during execve() where we use mremap
-	 * to move the initial stack, and in that case the target area
-	 * may overlap the source area (always moving down).
-	 *
-	 * If everything is PMD-aligned, that works fine, as moving
-	 * each pmd down will clear the source pmd. But if we first
-	 * have a few 4kB-only pages that get moved down, and then
-	 * hit the "now the rest is PMD-aligned, let's do everything
-	 * one pmd at a time", we will still have the old (now empty
-	 * of any 4kB pages, but still there) PMD in the page table
-	 * tree.
-	 *
-	 * Warn on it once - because we really should try to figure
-	 * out how to do this better - but then say "I won't move
-	 * this pmd".
-	 *
-	 * One alternative might be to just unmap the target pmd at
-	 * this point, and verify that it really is empty. We'll see.
+	 * should have release it.
 	 */
-	if (WARN_ON_ONCE(!pmd_none(*new_pmd)))
-		return 0;
+	if (WARN_ON(!pmd_none(*new_pmd)))
+		return false;
 
 	/*
 	 * We don't have to worry about the ordering of src and dst
@@ -249,17 +228,15 @@ int move_normal_pmd(struct vm_area_struct *vma, struct vm_area_struct *new_vma,
 	VM_BUG_ON(!pmd_none(*new_pmd));
 
 	/* Set the new pmd */
-	set_pmd_at(mm, new_addr, new_pmd, pmd_mksoft_dirty(pmd));
+	set_pmd_at(mm, new_addr, new_pmd, pmd);
 	flush_tlb_range(vma, old_addr, old_addr + PMD_SIZE);
 	if (new_ptl != old_ptl)
 		spin_unlock(new_ptl);
 	spin_unlock(old_ptl);
 
-	return 1;
+	return true;
 }
 #endif
-
-#define LATENCY_LIMIT	(64 * PAGE_SIZE)
 
 unsigned long move_page_tables(struct vm_area_struct *vma,
 		unsigned long old_addr, struct vm_area_struct *new_vma,
@@ -317,20 +294,18 @@ unsigned long move_page_tables(struct vm_area_struct *vma,
 			 * If the extent is PMD-sized, try to speed the move by
 			 * moving at the PMD level if possible.
 			 */
-			int err = 0;
+			bool moved;
 
 			if (need_rmap_locks)
-				anon_vma_lock_write(vma->anon_vma);
-			err = move_normal_pmd(vma, new_vma, old_addr,
-					      new_addr, old_end,
-					      old_pmd, new_pmd);
+				take_rmap_locks(vma);
+			moved = move_normal_pmd(vma, old_addr, new_addr,
+					old_end, old_pmd, new_pmd);
 			if (need_rmap_locks)
-				anon_vma_unlock_write(vma->anon_vma);
-			if (err)
+				drop_rmap_locks(vma);
+			if (moved)
 				continue;
 #endif
 		}
-
 		if (pmd_none(*new_pmd) && __pte_alloc(new_vma->vm_mm, new_vma,
 						      new_pmd, new_addr))
 			break;
