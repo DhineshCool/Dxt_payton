@@ -57,3 +57,4 @@ obj-$(CONFIG_LIMITS_MONITOR)	+= lmh_interface.o
 obj-$(CONFIG_LIMITS_LITE_HW)	+= lmh_lite.o
 obj-$(CONFIG_MMI_SYS_TEMP)      += mmi_sys_temp.o
 obj-y += msm_lmh_dcvs.o
+obj-$(CONFIG_MSM_THERMAL_SIMPLE) += msm_thermal_simple.o
