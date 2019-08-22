@@ -253,6 +253,8 @@ static void cpu_input_boost_input_event(struct input_handle *handle,
 		return;
 
 	queue_work(b->wq, &b->input_boost);
+
+	//__cpu_input_boost_kick(b);
 }
 
 static int cpu_input_boost_input_connect(struct input_handler *handler,
