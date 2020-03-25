@@ -834,7 +834,7 @@
 
 	pm660_bcl: qcom,bcl {
 		compatible = "qcom,bcl";
-		qcom,bcl-enable;
+/*		qcom,bcl-enable; */
 		qcom,bcl-framework-interface;
 		qcom,bcl-hotplug-list = <&CPU2 &CPU3>;
 		qcom,bcl-soc-hotplug-list = <&CPU0 &CPU1 &CPU2 &CPU3>;
@@ -1107,7 +1107,7 @@
 
 	cpubw: qcom,cpubw {
 		compatible = "qcom,devbw";
-		governor = "performance";
+		governor = "bw_hwmon";
 		qcom,src-dst-ports = <1 512>;
 		qcom,active-only;
 		qcom,bw-tbl =
@@ -1121,7 +1121,9 @@
 			<  2929 /*  768 MHz */ >,
 			<  3879 /* 1017 MHz */ >,
 			<  4943 /* 1296 MHz */ >,
-			<  5163 /* 1353 MHz */ >;
+			<  5163 /* 1353 MHz */ >,
+                        <  5931 /* 1555 MHz */ >,
+			<  6881 /* 1804 MHz */ >;
 	};
 
 	bwmon: qcom,cpu-bwmon {
@@ -1382,7 +1384,8 @@
 			<  1881600000 0x04040062 0x094e004e 0x2 7 >,
 			<  2016000000 0x04040069 0x0a540054 0x2 8 >,
 			<  2150400000 0x04040070 0x0b590059 0x2 9 >,
-			<  2208000000 0x04040073 0x0b5c005c 0x3 10 >;
+			<  2208000000 0x04040073 0x0b5c005c 0x3 10 >,
+                        <  2515200000 0x04040083 0x0d680068 0x3 11 >;
 
 		qcom,perfcl-speedbin2-v0 =
 			<   300000000 0x0004000f 0x01200020 0x1 1 >,
