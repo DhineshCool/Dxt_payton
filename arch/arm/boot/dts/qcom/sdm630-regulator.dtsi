@@ -785,13 +785,13 @@
 				qcom,cpr-fuse-corners = <5>;
 				qcom,cpr-fuse-combos = <32>;
 				qcom,cpr-speed-bins = <4>;
-				qcom,cpr-speed-bin-corners = <10 10 11 10>;
+				qcom,cpr-speed-bin-corners = <10 11 11 10>;
 				qcom,cpr-corners =
 					/* Speed bin 0 */
 					<10 10 10 10 10 10 10 10>,
 
 					/* Speed bin 1 */
-					<10 10 10 10 10 10 10 10>,
+					<11 11 11 11 11 11 11 11>,
 
 					/* Speed bin 2 */
 					<11 11 11 11 11 11 11 11>,
@@ -804,7 +804,7 @@
 					<2 4 6 9 10>,
 
 					/* Speed bin 1 */
-					<2 4 6 9 10>,
+					<2 4 6 9 11>,
 
 					/* Speed bin 2 */
 					<2 4 6 9 11>,
