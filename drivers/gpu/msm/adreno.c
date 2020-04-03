@@ -1827,11 +1827,11 @@ int adreno_set_constraint(struct kgsl_device *device,
 		}
 		break;
 	case KGSL_CONSTRAINT_NONE:
-		if (context->pwr_constraint.type == KGSL_CONSTRAINT_PWRLEVEL)
-			trace_kgsl_user_pwrlevel_constraint(device,
-				context->id,
-				KGSL_CONSTRAINT_NONE,
-				context->pwr_constraint.sub_type);
+//		if (context->pwr_constraint.type == KGSL_CONSTRAINT_PWRLEVEL)
+//			trace_kgsl_user_pwrlevel_constraint(device,
+//				context->id,
+//				KGSL_CONSTRAINT_NONE,
+//				context->pwr_constraint.sub_type);
 		context->pwr_constraint.type = KGSL_CONSTRAINT_NONE;
 		break;
 
