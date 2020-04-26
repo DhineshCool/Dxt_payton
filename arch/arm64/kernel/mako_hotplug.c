@@ -385,7 +385,7 @@ static ssize_t cpufreq_unplug_limit_store(struct device *dev,
 	if (ret < 0)
 		return ret;
 
-	t->cpufreq_unplug_limit = new_val > ULONG_MAX ? ULONG_MAX : new_val;
+	t->cpufreq_unplug_limit = new_val > ULONG_MAX ? ~0U : new_val;
 
 	return size;
 }
