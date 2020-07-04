@@ -12,7 +12,7 @@ sudo apt install bc bash git-core gnupg build-essential \
     m4 gcc libtool zlib1g-dev flex bison libssl-dev
 
 # Clone AnyKernel3
-git clone https://github.com/DhineshCool/AnyKernel3 anykernel
+git clone --depth=1 --single-branch https://github.com/DhineshCool/AnyKernel3 anykernel
 
 #Download Clang and ToolChain
-git clone https://github.com/kdrag0n/proton-clang.git clang
+git clone --depth=1 --single-branch https://github.com/kdrag0n/proton-clang.git clang
