@@ -9,11 +9,11 @@
 # Main environtment
 KERNEL_DIR=$PWD
 KERN_IMG=$KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb
-ZIP_DIR=/home/dhinesh/kernel/anykernel
+ZIP_DIR=$KERNEL_DIR/../anykernel
 CONFIG=dxt_defconfig
 CROSS_COMPILE="aarch64-linux-gnu-"
 CROSS_COMPILE_ARM32="arm-linux-gnueabi-"
-PATH="/home/dhinesh/kernel/clang/bin:/home/dhinesh/kernel/clang/aarch64-linux-gnu/bin:/home/dhinesh/kernel/clang/aarch64-linux-gnu/bin:${PATH}"
+PATH="${KERNEL_DIR}/../clang/bin:${KERNEL_DIR}/../clang/aarch64-linux-gnu/bin:${KERNEL_DIR}/../clang/aarch64-linux-gnu/bin:${PATH}"
 
 # Export
 export ARCH=arm64
