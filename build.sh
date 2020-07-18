@@ -4,14 +4,16 @@
 # Copyright (C) 2018 Rama Bndan Prakoso (rama982)
 # Android Kernel Build Script
 
+###################### ONLY FOR DxT ####################
+
 # Main environtment
 KERNEL_DIR=$PWD
 KERN_IMG=$KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb
-ZIP_DIR=${KERNEL_DIR}/../anykernel
-CONFIG=lineageos_payton_defconfig
-CROSS_COMPILE="aarch64-linux-android-"
-CROSS_COMPILE_ARM32="arm-linux-androideabi-"
-PATH="${KERNEL_DIR}/../cl12/bin:${KERNEL_DIR}/../aarch64-linux-android-4.9/bin:${KERNEL_DIR}/../arm-linux-androideabi-4.9/bin:${PATH}"
+ZIP_DIR=/home/dhinesh/kernel/anykernel
+CONFIG=dxt_defconfig
+CROSS_COMPILE="aarch64-linux-gnu-"
+CROSS_COMPILE_ARM32="arm-linux-gnueabi-"
+PATH="/home/dhinesh/kernel/clang/bin:/home/dhinesh/kernel/clang/aarch64-linux-gnu/bin:/home/dhinesh/kernel/clang/aarch64-linux-gnu/bin:${PATH}"
 
 # Export
 export ARCH=arm64
@@ -23,8 +25,7 @@ make O=out $CONFIG
 make -j$(nproc --all) O=out \
                       ARCH=arm64 \
                       CC=clang \
-CLANG_TRIPLE=aarch64-linux-gnu- \
-CROSS_COMPILE=aarch64-linux-android-
+CROSS_COMPILE=aarch64-linux-gnu-
 
 if ! [ -a $KERN_IMG ]; then
     echo "Build error!"
@@ -37,8 +38,8 @@ cd ..
 cd $ZIP_DIR
 cp $KERN_IMG zImage
 make normal &>/dev/null
-rm -rf upstream.zip
-zip -r9 upstream.zip * -x .git README.md *placeholder
+rm -rf DxT-v1.5.zip
+zip -r9 DxT-v1.5.zip * -x .git README.md *placeholder
 echo "Flashable zip generated under $ZIP_DIR."
 cd ..
 # Build end
