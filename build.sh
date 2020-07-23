@@ -38,8 +38,8 @@ cd ..
 cd $ZIP_DIR
 cp $KERN_IMG zImage
 make normal &>/dev/null
-rm -rf DxT-v2.1.zip
-zip -r9 DxT-v2.1.zip * -x .git README.md *placeholder
+rm -rf DxT-v2.2.zip
+zip -r9 DxT-v2.2.zip * -x .git README.md *placeholder
 echo "Flashable zip generated under $ZIP_DIR."
 cd ..
 # Build end
