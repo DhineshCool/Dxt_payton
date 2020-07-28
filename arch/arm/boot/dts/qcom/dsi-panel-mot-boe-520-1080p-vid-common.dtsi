@@ -124,8 +124,8 @@ qcom,panel-supply-entries {
 	qcom,panel-supply-entry@0 {
 		reg = <0>;
 		qcom,supply-name = "wqhd-vddio";
-		qcom,supply-min-voltage = <1880000>;
-		qcom,supply-max-voltage = <1950000>;
+		qcom,supply-min-voltage = <1830000>;
+		qcom,supply-max-voltage = <1880000>;
 		qcom,supply-enable-load = <32000>;
 		qcom,supply-disable-load = <80>;
 		qcom,supply-post-on-sleep = <10>;
@@ -135,8 +135,8 @@ qcom,panel-supply-entries {
 	qcom,panel-supply-entry@1 {
 		reg = <1>;
 		qcom,supply-name = "lab";
-		qcom,supply-min-voltage = <4600000>;
-		qcom,supply-max-voltage = <6000000>;
+		qcom,supply-min-voltage = <4200000>;
+		qcom,supply-max-voltage = <5800000>;
 		qcom,supply-enable-load = <100000>;
 		qcom,supply-disable-load = <100>;
 	};
@@ -144,8 +144,8 @@ qcom,panel-supply-entries {
 	qcom,panel-supply-entry@2 {
 		reg = <2>;
 		qcom,supply-name = "ibb";
-		qcom,supply-min-voltage = <4600000>;
-		qcom,supply-max-voltage = <6000000>;
+		qcom,supply-min-voltage = <4200000>;
+		qcom,supply-max-voltage = <5800000>;
 		qcom,supply-enable-load = <100000>;
 		qcom,supply-disable-load = <100>;
 		qcom,supply-post-on-sleep = <10>;
