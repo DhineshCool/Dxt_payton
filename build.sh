@@ -4,6 +4,8 @@
 # Copyright (C) 2018 Rama Bndan Prakoso (rama982)
 # Android Kernel Build Script
 
+username=dhinesh
+
 ###################### ONLY FOR DxT ####################
 
 # Main environtment
@@ -38,8 +40,8 @@ cd ..
 cd $ZIP_DIR
 cp $KERN_IMG zImage
 make normal &>/dev/null
-rm -rf DxT-v3.5.zip
-zip -r9 DxT-v3.5.zip * -x .git README.md *placeholder
+rm -rf DxT-v3.5-UV.zip
+zip -r9 DxT-v3.5-UV.zip * -x .git README.md *placeholder
 echo "Flashable zip generated under $ZIP_DIR."
 cd ..
 # Build end
