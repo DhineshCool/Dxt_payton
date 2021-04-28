@@ -118,3 +118,5 @@ all.config
 android/configs/android-*.cfg
 
 out
+AnyKernel3
+clang-llvm
